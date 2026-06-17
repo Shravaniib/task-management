@@ -11,8 +11,9 @@ function App() {
     axios
       .get("http://127.0.0.1:8000/api/tasks/")
       .then((response) => {
-        setTasks(response.data);
-      })
+  console.log(response.data);
+  setTasks(response.data);
+})
       .catch((error) => {
         console.error("API Error:", error);
       });
