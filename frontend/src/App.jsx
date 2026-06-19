@@ -3,21 +3,12 @@ import axios from "axios";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import useTasks from "./hooks/useTasks";
 
 function App() {
-  const [tasks, setTasks] = useState([]);
+  
 
-  useEffect(() => {
-    axios
-      .get("http://127.0.0.1:8000/api/tasks/")
-      .then((response) => {
-  console.log(response.data);
-  setTasks(response.data);
-})
-      .catch((error) => {
-        console.error("API Error:", error);
-      });
-  }, []);
+const tasks = useTasks();
 
   return (
     <>
