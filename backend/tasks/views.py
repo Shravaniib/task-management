@@ -105,9 +105,9 @@ def register_user(request):
 
     
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def user_profile(request):
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def register_user(request):
 
     profile, created = Profile.objects.get_or_create(
         user=request.user
