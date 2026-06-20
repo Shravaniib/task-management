@@ -1,11 +1,12 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
-
-from .models import Task
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from .models import Task, Profile
 from .serializers import TaskSerializer
 from .user_serializer import UserSerializer
+from tasks.models import Profile
+
 
 
 @api_view(['GET', 'POST'])
@@ -76,12 +77,21 @@ def task_detail(request, pk):
 
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def register_user(request):
+
 
     serializer = UserSerializer(data=request.data)
 
     if serializer.is_valid():
-        serializer.save()
+
+        user = serializer.save()
+
+        profile = Profile.objects.get(user=user)
+
+        profile.avatar = request.data.get("profile_picture")
+
+        profile.save()
 
         return Response(
             {"message": "User registered successfully"},
@@ -92,3 +102,23 @@ def register_user(request):
         serializer.errors,
         status=status.HTTP_400_BAD_REQUEST
     )
+
+    
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_profile(request):
+
+    profile, created = Profile.objects.get_or_create(
+        user=request.user
+    )
+
+    return Response({
+        "username": request.user.username,
+        "email": request.user.email,
+        "profile_picture":
+            profile.profile_picture.url
+            if profile.profile_picture
+            else None,
+        "avatar": profile.avatar
+    })
