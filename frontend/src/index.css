@@ -109,3 +109,17 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+.stat-card {
+  background: #1e293b;
+  padding: 25px;
+  border-radius: 12px;
+  min-width: 200px;
+  text-align: center;
+  border: 1px solid #334155;
+  transition: 0.3s;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}

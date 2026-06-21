@@ -6,7 +6,7 @@ function useTasks() {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/api/tasks/")
+      .get("http://23.22.136.183:8000/api/tasks/")
       .then((response) => {
         setTasks(response.data);
       })
